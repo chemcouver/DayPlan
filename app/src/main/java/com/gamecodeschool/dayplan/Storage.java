@@ -92,6 +92,41 @@ public class Storage extends SQLiteOpenHelper {
         return courses;
     }
 
+    public boolean updateCourse(int courseId, String name, String description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COURSE_NAME, name);
+        values.put(COURSE_DESCRIPTION, description);
+
+        int rows = db.update(
+                TABLE_COURSES,
+                values,
+                COURSE_ID + " = ?",
+                new String[]{String.valueOf(courseId)}
+        );
+
+        return rows > 0;
+    }
+
+    public boolean deleteCourse(int courseId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(
+                TABLE_TASKS,
+                TASK_COURSE_ID + " = ?",
+                new String[]{String.valueOf(courseId)}
+        );
+
+        int rows = db.delete(
+                TABLE_COURSES,
+                COURSE_ID + " = ?",
+                new String[]{String.valueOf(courseId)}
+        );
+
+        return rows > 0;
+    }
+
     public boolean createTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();
 

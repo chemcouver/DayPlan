@@ -10,10 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class DashboardActivity extends AppCompatActivity {
-
     private Button viewCoursesButton;
     private Button viewTasksButton;
-    private Button addCourseButton;
     private Button addTaskButton;
 
     private TextView summaryTextView;
@@ -30,7 +28,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         viewCoursesButton = findViewById(R.id.viewCoursesButton);
         viewTasksButton = findViewById(R.id.viewTasksButton);
-        addCourseButton = findViewById(R.id.addCourseButton);
         addTaskButton = findViewById(R.id.addTaskButton);
 
         summaryTextView = findViewById(R.id.summaryTextView);
@@ -42,10 +39,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         viewTasksButton.setOnClickListener(v ->
                 startActivity(new Intent(DashboardActivity.this, TaskActivity.class))
-        );
-
-        addCourseButton.setOnClickListener(v ->
-                startActivity(new Intent(DashboardActivity.this, AddCourseActivity.class))
         );
 
         addTaskButton.setOnClickListener(v ->

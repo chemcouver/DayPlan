@@ -1,63 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
 
-        <LinearLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Add Task"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/taskTitleInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
+            android:hint="Task title" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="Add Task"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/taskTitleInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Task title" />
-
-            <EditText
-                android:id="@+id/taskDescriptionInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:hint="Task description"
-                android:minLines="3" />
-
-            <EditText
-                android:id="@+id/dueDateInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Due date, for example 2026-07-15"
-                android:inputType="date" />
-
-            <Spinner
-                android:id="@+id/courseSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/saveTaskButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Save Task" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/taskDescriptionInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:gravity="top"
+            android:hint="Task description"
+            android:minLines="3" />
+
+        <EditText
+            android:id="@+id/dueDateInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Due date, for example 2026-07-15"
+            android:inputType="date" />
+
+        <Spinner
+            android:id="@+id/courseSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/saveTaskButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Task" />
+
+    </LinearLayout>
+</ScrollView>

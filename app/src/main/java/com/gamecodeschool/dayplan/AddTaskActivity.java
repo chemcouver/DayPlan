@@ -10,13 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class AddTaskActivity extends AppCompatActivity {
-
     private EditText taskTitleInput;
     private EditText taskDescriptionInput;
     private EditText dueDateInput;
     private Spinner courseSpinner;
     private Button saveTaskButton;
-
     private Storage storage;
     private ArrayList<Course> courses;
 
@@ -67,7 +65,7 @@ public class AddTaskActivity extends AppCompatActivity {
         }
 
         if (!isValidDateFormat(dueDate)) {
-            dueDateInput.setError("Use date format DD-MM-YYYY");
+            dueDateInput.setError("Use date format YYYY-MM-DD");
             return;
         }
 
@@ -97,6 +95,6 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     private boolean isValidDateFormat(String date) {
-        return date.matches("\\d{2}-\\d{2}-\\d{4}");
+        return date.matches("\\d{4}-\\d{2}-\\d{2}");
     }
 }

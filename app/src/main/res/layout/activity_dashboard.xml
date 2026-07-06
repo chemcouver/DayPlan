@@ -55,12 +55,6 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/addCourseButton"
-            android:text="Add Course"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
             android:id="@+id/viewTasksButton"
             android:text="View Tasks"
             android:layout_width="match_parent"

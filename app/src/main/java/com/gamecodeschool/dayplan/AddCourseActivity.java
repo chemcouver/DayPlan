@@ -13,6 +13,9 @@ public class AddCourseActivity extends AppCompatActivity {
     private Button saveCourseButton;
     private Storage storage;
 
+    private boolean editMode = false;
+    private int courseId = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +27,23 @@ public class AddCourseActivity extends AppCompatActivity {
         courseDescriptionInput = findViewById(R.id.courseDescriptionInput);
         saveCourseButton = findViewById(R.id.saveCourseButton);
 
+        checkForEditMode();
+
         saveCourseButton.setOnClickListener(v -> saveCourse());
+    }
+
+    private void checkForEditMode() {
+        if (getIntent().hasExtra("courseId")) {
+            editMode = true;
+
+            courseId = getIntent().getIntExtra("courseId", -1);
+            String courseName = getIntent().getStringExtra("courseName");
+            String courseDescription = getIntent().getStringExtra("courseDescription");
+
+            courseNameInput.setText(courseName);
+            courseDescriptionInput.setText(courseDescription);
+            saveCourseButton.setText("Update Course");
+        }
     }
 
     private void saveCourse() {
@@ -36,11 +55,18 @@ public class AddCourseActivity extends AppCompatActivity {
             return;
         }
 
-        Course course = new Course(name, description);
-        boolean saved = storage.createCourse(course);
+        boolean saved;
+
+        if (editMode) {
+            saved = storage.updateCourse(courseId, name, description);
+        } else {
+            Course course = new Course(name, description);
+            saved = storage.createCourse(course);
+        }
 
         if (saved) {
-            Toast.makeText(this, "Course saved successfully", Toast.LENGTH_SHORT).show();
+            String message = editMode ? "Course updated successfully" : "Course saved successfully";
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             finish();
         } else {
             Toast.makeText(this, "Error saving course", Toast.LENGTH_SHORT).show();
