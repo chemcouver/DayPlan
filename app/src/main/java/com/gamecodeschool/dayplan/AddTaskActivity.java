@@ -39,12 +39,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private void loadCoursesIntoSpinner() {
         courses = storage.getAllCourses();
 
-        ArrayAdapter<Course> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                courses
-        );
-
+        ArrayAdapter<Course> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, courses);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         courseSpinner.setAdapter(adapter);
     }
@@ -76,14 +71,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
         Course selectedCourse = (Course) courseSpinner.getSelectedItem();
 
-        Task task = new Task(
-                selectedCourse.getCourseId(),
-                title,
-                description,
-                dueDate,
-                false
-        );
-
+        Task task = new Task(selectedCourse.getCourseId(), title, description, dueDate, false);
         boolean saved = storage.createTask(task);
 
         if (saved) {

@@ -13,10 +13,8 @@ public class DashboardActivity extends AppCompatActivity {
     private Button viewCoursesButton;
     private Button viewTasksButton;
     private Button addTaskButton;
-
     private TextView summaryTextView;
     private ListView upcomingTaskListView;
-
     private Storage storage;
 
     @Override
@@ -33,17 +31,9 @@ public class DashboardActivity extends AppCompatActivity {
         summaryTextView = findViewById(R.id.summaryTextView);
         upcomingTaskListView = findViewById(R.id.upcomingTaskListView);
 
-        viewCoursesButton.setOnClickListener(v ->
-                startActivity(new Intent(DashboardActivity.this, CourseActivity.class))
-        );
-
-        viewTasksButton.setOnClickListener(v ->
-                startActivity(new Intent(DashboardActivity.this, TaskActivity.class))
-        );
-
-        addTaskButton.setOnClickListener(v ->
-                startActivity(new Intent(DashboardActivity.this, AddTaskActivity.class))
-        );
+        viewCoursesButton.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, CourseActivity.class)));
+        viewTasksButton.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, TaskActivity.class)));
+        addTaskButton.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, AddTaskActivity.class)));
     }
 
     @Override
@@ -57,21 +47,12 @@ public class DashboardActivity extends AppCompatActivity {
         int completedTasks = storage.getCompletedTaskCount();
         int incompleteTasks = storage.getIncompleteTaskCount();
 
-        String summary = "Weekly Summary\n\n" +
-                "Total tasks: " + totalTasks + "\n" +
-                "Completed tasks: " + completedTasks + "\n" +
-                "Incomplete tasks: " + incompleteTasks;
-
+        String summary = "Weekly Summary\n\n" + "Total tasks: " + totalTasks + "\n" + "Completed tasks: " + completedTasks + "\n" + "Incomplete tasks: " + incompleteTasks;
         summaryTextView.setText(summary);
 
         ArrayList<Task> upcomingTasks = storage.getUpcomingIncompleteTasks(5);
 
-        ArrayAdapter<Task> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                upcomingTasks
-        );
-
+        ArrayAdapter<Task> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, upcomingTasks);
         upcomingTaskListView.setAdapter(adapter);
     }
 }

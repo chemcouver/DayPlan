@@ -33,9 +33,7 @@ public class CourseActivity extends AppCompatActivity {
         courseListView = findViewById(R.id.courseListView);
         addCourseButton = findViewById(R.id.addCourseButton);
 
-        addCourseButton.setOnClickListener(v ->
-                startActivity(new Intent(CourseActivity.this, AddCourseActivity.class))
-        );
+        addCourseButton.setOnClickListener(v -> startActivity(new Intent(CourseActivity.this, AddCourseActivity.class)));
 
         courseListView.setOnItemClickListener((parent, view, position, id) -> {
             Course selectedCourse = courses.get(position);
@@ -45,6 +43,7 @@ public class CourseActivity extends AppCompatActivity {
         courseListView.setOnItemLongClickListener((parent, view, position, id) -> {
             Course selectedCourse = courses.get(position);
             showCourseOptions(selectedCourse);
+
             return true;
         });
     }
@@ -57,13 +56,7 @@ public class CourseActivity extends AppCompatActivity {
 
     private void loadCourses() {
         courses = storage.getAllCourses();
-
-        adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                courses
-        );
-
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, courses);
         courseListView.setAdapter(adapter);
     }
 
@@ -71,13 +64,11 @@ public class CourseActivity extends AppCompatActivity {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
 
         View view = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_course_details, null);
-
         TextView courseTitleTextView = view.findViewById(R.id.courseTitleTextView);
         TextView courseDescriptionTextView = view.findViewById(R.id.courseDescriptionTextView);
         Button closeButton = view.findViewById(R.id.closeButton);
 
         courseTitleTextView.setText(course.getCourseName());
-
         String description = course.getCourseDescription();
 
         if (description == null || description.trim().isEmpty()) {
@@ -87,7 +78,6 @@ public class CourseActivity extends AppCompatActivity {
         }
 
         closeButton.setOnClickListener(v -> bottomSheetDialog.dismiss());
-
         bottomSheetDialog.setContentView(view);
         bottomSheetDialog.show();
     }
@@ -95,16 +85,13 @@ public class CourseActivity extends AppCompatActivity {
     private void showCourseOptions(Course course) {
         String[] options = {"Edit Course", "Delete Course"};
 
-        new AlertDialog.Builder(this)
-                .setTitle(course.getCourseName())
-                .setItems(options, (dialog, which) -> {
-                    if (which == 0) {
-                        editCourse(course);
-                    } else if (which == 1) {
-                        confirmDeleteCourse(course);
-                    }
-                })
-                .show();
+        new AlertDialog.Builder(this).setTitle(course.getCourseName()).setItems(options, (dialog, which) -> {
+            if (which == 0) {
+                editCourse(course);
+            } else if (which == 1) {
+                confirmDeleteCourse(course);
+            }
+        }).show();
     }
 
     private void editCourse(Course course) {
@@ -116,20 +103,15 @@ public class CourseActivity extends AppCompatActivity {
     }
 
     private void confirmDeleteCourse(Course course) {
-        new AlertDialog.Builder(this)
-                .setTitle("Delete Course")
-                .setMessage("Delete " + course.getCourseName() + "? Tasks assigned to this course will also be deleted.")
-                .setPositiveButton("Delete", (dialog, which) -> {
-                    boolean deleted = storage.deleteCourse(course.getCourseId());
+        new AlertDialog.Builder(this).setTitle("Delete Course").setMessage("Delete " + course.getCourseName() + "? Tasks assigned to this course will also be deleted.").setPositiveButton("Delete", (dialog, which) -> {
+            boolean deleted = storage.deleteCourse(course.getCourseId());
 
-                    if (deleted) {
-                        Toast.makeText(this, "Course deleted", Toast.LENGTH_SHORT).show();
-                        loadCourses();
-                    } else {
-                        Toast.makeText(this, "Could not delete course", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
+            if (deleted) {
+                Toast.makeText(this, "Course deleted", Toast.LENGTH_SHORT).show();
+                loadCourses();
+            } else {
+                Toast.makeText(this, "Could not delete course", Toast.LENGTH_SHORT).show();
+            }
+        }).setNegativeButton("Cancel", null).show();
     }
 }

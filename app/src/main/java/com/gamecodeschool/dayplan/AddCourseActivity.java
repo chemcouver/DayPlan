@@ -7,12 +7,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AddCourseActivity extends AppCompatActivity {
-
     private EditText courseNameInput;
     private EditText courseDescriptionInput;
     private Button saveCourseButton;
     private Storage storage;
-
     private boolean editMode = false;
     private int courseId = -1;
 
