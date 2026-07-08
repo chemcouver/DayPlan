@@ -9,13 +9,20 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Tasks"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="4dp"
+			android:text="Tasks"
+			android:textSize="24sp"
+			android:textStyle="bold" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="16dp"
+			android:text="Tap a task to view details. Hold a task to edit or delete."
+			android:textSize="14sp" />
 
         <Button
             android:id="@+id/addTaskButton"
