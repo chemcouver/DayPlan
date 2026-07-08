@@ -8,14 +8,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DayPlan">
 
-        <activity android:name=".AddTaskActivity" />
-        <activity android:name=".TaskActivity" />
-        <activity android:name=".AddCourseActivity" />
-        <activity android:name=".CourseActivity" />
+        <activity android:name=".AddTaskActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".TaskActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".AddCourseActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".CourseActivity"
+            android:screenOrientation="portrait"
+            />
 
         <activity
             android:name=".DashboardActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -10,6 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
+import android.graphics.Color;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.LayoutInflater;
 
 public class DashboardActivity extends AppCompatActivity {
     private Button viewCoursesButton;
@@ -65,7 +69,36 @@ public class DashboardActivity extends AppCompatActivity {
         summaryTextView.setText(summary);
 
         upcomingTasks = storage.getUpcomingIncompleteTasks(5);
-        ArrayAdapter<Task> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, upcomingTasks);
+
+        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this, 0, upcomingTasks) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Task task = getItem(position);
+
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(
+                            R.layout.task_row,
+                            parent,
+                            false
+                    );
+                }
+
+                TextView taskTitleTextView = convertView.findViewById(R.id.taskTitleTextView);
+                TextView taskDueDateTextView = convertView.findViewById(R.id.taskDueDateTextView);
+                TextView taskStatusSymbolTextView = convertView.findViewById(R.id.taskStatusSymbolTextView);
+
+                if (task != null) {
+                    taskTitleTextView.setText(task.getTaskTitle());
+                    taskDueDateTextView.setText(task.getCountdownText());
+
+                    taskStatusSymbolTextView.setText("✕");
+                    taskStatusSymbolTextView.setTextColor(Color.rgb(200, 0, 0));
+                }
+
+                return convertView;
+            }
+        };
+
         upcomingTaskListView.setAdapter(adapter);
     }
 

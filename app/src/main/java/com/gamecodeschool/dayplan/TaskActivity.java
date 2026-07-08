@@ -13,6 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import android.graphics.Color;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.LayoutInflater;
+import android.widget.TextView;
 
 public class TaskActivity extends AppCompatActivity {
     private ListView taskListView;
@@ -52,7 +57,42 @@ public class TaskActivity extends AppCompatActivity {
 
     private void loadTasks() {
         tasks = storage.getAllTasks();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tasks);
+
+        adapter = new ArrayAdapter<Task>(this, 0, tasks) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Task task = getItem(position);
+
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(
+                            R.layout.task_row,
+                            parent,
+                            false
+                    );
+                }
+
+                TextView taskTitleTextView = convertView.findViewById(R.id.taskTitleTextView);
+                TextView taskDueDateTextView = convertView.findViewById(R.id.taskDueDateTextView);
+                TextView taskStatusSymbolTextView = convertView.findViewById(R.id.taskStatusSymbolTextView);
+
+                if (task != null) {
+                    taskTitleTextView.setText(task.getTaskTitle());
+
+                    if (task.isComplete()) {
+                        taskDueDateTextView.setText("Complete");
+                        taskStatusSymbolTextView.setText("✓");
+                        taskStatusSymbolTextView.setTextColor(Color.rgb(0, 150, 0));
+                    } else {
+                        taskDueDateTextView.setText(task.getCountdownText());
+                        taskStatusSymbolTextView.setText("✕");
+                        taskStatusSymbolTextView.setTextColor(Color.rgb(200, 0, 0));
+                    }
+                }
+
+                return convertView;
+            }
+        };
+
         taskListView.setAdapter(adapter);
     }
 
