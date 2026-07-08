@@ -24,6 +24,10 @@ public class AddTaskActivity extends AppCompatActivity {
     private Button selectDateButton;
     private TextView selectedDateTextView;
     private String selectedDueDate = "";
+    private boolean editMode = false;
+    private int taskId = -1;
+    private int editingCourseId = -1;
+    private boolean editingCompleteStatus = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class AddTaskActivity extends AppCompatActivity {
         selectedDateTextView = findViewById(R.id.selectedDateTextView);
 
         loadCoursesIntoSpinner();
+        checkForEditMode();
 
         selectDateButton.setOnClickListener(v -> showDatePicker());
         saveTaskButton.setOnClickListener(v -> saveTask());
@@ -51,6 +56,46 @@ public class AddTaskActivity extends AppCompatActivity {
         ArrayAdapter<Course> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, courses);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         courseSpinner.setAdapter(adapter);
+    }
+
+    private void checkForEditMode() {
+        if (getIntent().hasExtra("taskId")) {
+            editMode = true;
+
+            taskId = getIntent().getIntExtra("taskId", -1);
+            editingCourseId = getIntent().getIntExtra("courseId", -1);
+            String taskTitle = getIntent().getStringExtra("taskTitle");
+            String taskDescription = getIntent().getStringExtra("taskDescription");
+            selectedDueDate = getIntent().getStringExtra("dueDate");
+            editingCompleteStatus = getIntent().getBooleanExtra("complete", false);
+
+            taskTitleInput.setText(taskTitle);
+            taskDescriptionInput.setText(taskDescription);
+            selectedDateTextView.setText("Due: " + getCountdownTextFromDate(selectedDueDate));
+
+            Button saveTaskButton = findViewById(R.id.saveTaskButton);
+            saveTaskButton.setText("Update Task");
+
+            for (int i = 0; i < courses.size(); i++) {
+                if (courses.get(i).getCourseId() == editingCourseId) {
+                    courseSpinner.setSelection(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    private String getCountdownTextFromDate(String dateText) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+            Calendar selectedCalendar = Calendar.getInstance();
+            selectedCalendar.setTime(format.parse(dateText));
+
+            return getCountdownText(selectedCalendar);
+        } catch (Exception e) {
+            return dateText;
+        }
     }
 
     private void showDatePicker() {
@@ -116,8 +161,21 @@ public class AddTaskActivity extends AppCompatActivity {
 
         Course selectedCourse = (Course) courseSpinner.getSelectedItem();
 
-        Task task = new Task(selectedCourse.getCourseId(), title, description, selectedDueDate, false);
-        boolean saved = storage.createTask(task);
+        boolean saved;
+
+        if (editMode) {
+            saved = storage.updateTask(
+                    taskId,
+                    selectedCourse.getCourseId(),
+                    title,
+                    description,
+                    selectedDueDate,
+                    editingCompleteStatus
+            );
+        } else {
+            Task task = new Task(selectedCourse.getCourseId(), title, description, selectedDueDate, false);
+            saved = storage.createTask(task);
+        }
 
         if (saved) {
             Toast.makeText(this, "Task saved successfully", Toast.LENGTH_SHORT).show();

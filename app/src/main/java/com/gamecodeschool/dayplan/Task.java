@@ -2,9 +2,7 @@ package com.gamecodeschool.dayplan;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 public class Task {
     private int taskId;
@@ -61,11 +59,10 @@ public class Task {
 
     @Override
     public String toString() {
-        String status = complete ? "Complete" : "Incomplete";
-        return taskTitle + " - Due: " + getCountdownText() + " - " + status;
+        return taskTitle + "\n" + getCountdownText();
     }
 
-    private String getCountdownText() {
+    public String getCountdownText() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
         try {

@@ -72,6 +72,28 @@ public class Storage extends SQLiteOpenHelper {
         return courses;
     }
 
+    public Course getCourseById(int courseId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM " + TABLE_COURSES + " WHERE " + COURSE_ID + " = ?",
+                new String[]{String.valueOf(courseId)}
+        );
+
+        Course course = null;
+
+        if (cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(COURSE_ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(COURSE_NAME));
+            String description = cursor.getString(cursor.getColumnIndexOrThrow(COURSE_DESCRIPTION));
+
+            course = new Course(id, name, description);
+        }
+
+        cursor.close();
+        return course;
+    }
+
     public boolean updateCourse(int courseId, String name, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -105,6 +127,26 @@ public class Storage extends SQLiteOpenHelper {
         long result = db.insert(TABLE_TASKS, null, values);
 
         return result != -1;
+    }
+
+    public boolean updateTask(int taskId, int courseId, String title, String description, String dueDate, boolean complete) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(TASK_COURSE_ID, courseId);
+        values.put(TASK_TITLE, title);
+        values.put(TASK_DESCRIPTION, description);
+        values.put(TASK_DUE_DATE, dueDate);
+        values.put(TASK_COMPLETE, complete ? 1 : 0);
+
+        int rows = db.update(
+                TABLE_TASKS,
+                values,
+                TASK_ID + " = ?",
+                new String[]{String.valueOf(taskId)}
+        );
+
+        return rows > 0;
     }
 
     public ArrayList<Task> getAllTasks() {
@@ -251,6 +293,18 @@ public class Storage extends SQLiteOpenHelper {
         values.put(TASK_COMPLETE, complete ? 1 : 0);
 
         int rows = db.update(TABLE_TASKS, values, TASK_ID + " = ?", new String[]{String.valueOf(taskId)});
+
+        return rows > 0;
+    }
+
+    public boolean deleteTask(int taskId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int rows = db.delete(
+                TABLE_TASKS,
+                TASK_ID + " = ?",
+                new String[]{String.valueOf(taskId)}
+        );
 
         return rows > 0;
     }

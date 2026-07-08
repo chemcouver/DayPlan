@@ -37,9 +37,16 @@ public class DashboardActivity extends AppCompatActivity {
         viewCoursesButton.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, CourseActivity.class)));
         viewTasksButton.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, TaskActivity.class)));
         addTaskButton.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, AddTaskActivity.class)));
+
         upcomingTaskListView.setOnItemClickListener((parent, view, position, id) -> {
             Task selectedTask = upcomingTasks.get(position);
             showCompletionDialog(selectedTask);
+        });
+
+        upcomingTaskListView.setOnItemLongClickListener((parent, view, position, id) -> {
+            Task selectedTask = upcomingTasks.get(position);
+            showCompletionDialog(selectedTask);
+            return true;
         });
     }
 
