@@ -8,6 +8,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
+import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 
 public class DashboardActivity extends AppCompatActivity {
     private Button viewCoursesButton;
@@ -16,6 +18,7 @@ public class DashboardActivity extends AppCompatActivity {
     private TextView summaryTextView;
     private ListView upcomingTaskListView;
     private Storage storage;
+    private ArrayList<Task> upcomingTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,10 @@ public class DashboardActivity extends AppCompatActivity {
         viewCoursesButton.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, CourseActivity.class)));
         viewTasksButton.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, TaskActivity.class)));
         addTaskButton.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, AddTaskActivity.class)));
+        upcomingTaskListView.setOnItemClickListener((parent, view, position, id) -> {
+            Task selectedTask = upcomingTasks.get(position);
+            showCompletionDialog(selectedTask);
+        });
     }
 
     @Override
@@ -50,9 +57,24 @@ public class DashboardActivity extends AppCompatActivity {
         String summary = "Weekly Summary\n\n" + "Total tasks: " + totalTasks + "\n" + "Completed tasks: " + completedTasks + "\n" + "Incomplete tasks: " + incompleteTasks;
         summaryTextView.setText(summary);
 
-        ArrayList<Task> upcomingTasks = storage.getUpcomingIncompleteTasks(5);
-
+        upcomingTasks = storage.getUpcomingIncompleteTasks(5);
         ArrayAdapter<Task> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, upcomingTasks);
         upcomingTaskListView.setAdapter(adapter);
+    }
+
+    private void showCompletionDialog(Task task) {
+        new AlertDialog.Builder(this).setTitle("Complete Task").setMessage("Mark this task as complete?").setPositiveButton("Yes", (dialog, which) -> {
+            boolean updated = storage.updateTaskCompletion(
+                    task.getTaskId(),
+                    true
+            );
+
+            if (updated) {
+                Toast.makeText(this, "Task marked complete", Toast.LENGTH_SHORT).show();
+                loadDashboard();
+            } else {
+                Toast.makeText(this, "Could not update task", Toast.LENGTH_SHORT).show();
+            }
+        }).setNegativeButton("Cancel", null).show();
     }
 }

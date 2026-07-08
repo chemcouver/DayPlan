@@ -29,7 +29,6 @@ public class CourseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course);
 
         storage = new Storage(this);
-
         courseListView = findViewById(R.id.courseListView);
         addCourseButton = findViewById(R.id.addCourseButton);
 
