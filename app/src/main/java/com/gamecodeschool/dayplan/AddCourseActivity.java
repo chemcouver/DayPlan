@@ -1,9 +1,7 @@
 package com.gamecodeschool.dayplan;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AddCourseActivity extends AppCompatActivity {
@@ -26,7 +24,6 @@ public class AddCourseActivity extends AppCompatActivity {
         saveCourseButton = findViewById(R.id.saveCourseButton);
 
         checkForEditMode();
-
         saveCourseButton.setOnClickListener(v -> saveCourse());
     }
 

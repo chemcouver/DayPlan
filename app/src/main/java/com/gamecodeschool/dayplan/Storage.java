@@ -1,11 +1,9 @@
 package com.gamecodeschool.dayplan;
 
-import android.content.ContentValues;
-import android.content.Context;
+import android.content.*;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import java.util.ArrayList;
+import android.database.sqlite.*;
+import java.util.*;
 
 public class Storage extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "dayplan.db";
@@ -44,7 +42,6 @@ public class Storage extends SQLiteOpenHelper {
 
     public boolean createCourse(Course course) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(COURSE_NAME, course.getCourseName());
         values.put(COURSE_DESCRIPTION, course.getCourseDescription());
@@ -107,10 +104,8 @@ public class Storage extends SQLiteOpenHelper {
 
     public boolean deleteCourse(int courseId) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         db.delete(TABLE_TASKS, TASK_COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
         int rows = db.delete(TABLE_COURSES, COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
-
         return rows > 0;
     }
 
@@ -125,7 +120,6 @@ public class Storage extends SQLiteOpenHelper {
         values.put(TASK_COMPLETE, task.isComplete() ? 1 : 0);
 
         long result = db.insert(TABLE_TASKS, null, values);
-
         return result != -1;
     }
 
@@ -139,13 +133,7 @@ public class Storage extends SQLiteOpenHelper {
         values.put(TASK_DUE_DATE, dueDate);
         values.put(TASK_COMPLETE, complete ? 1 : 0);
 
-        int rows = db.update(
-                TABLE_TASKS,
-                values,
-                TASK_ID + " = ?",
-                new String[]{String.valueOf(taskId)}
-        );
-
+        int rows = db.update(TABLE_TASKS, values, TASK_ID + " = ?", new String[]{String.valueOf(taskId)});
         return rows > 0;
     }
 
@@ -241,11 +229,9 @@ public class Storage extends SQLiteOpenHelper {
 
     public int getTaskCount() {
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_TASKS, null);
 
         int count = 0;
-
         if (cursor.moveToFirst()) {
             count = cursor.getInt(0);
         }
@@ -257,11 +243,9 @@ public class Storage extends SQLiteOpenHelper {
 
     public int getCompletedTaskCount() {
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_TASKS + " WHERE " + TASK_COMPLETE + " = 1", null);
 
         int count = 0;
-
         if (cursor.moveToFirst()) {
             count = cursor.getInt(0);
         }
@@ -273,11 +257,9 @@ public class Storage extends SQLiteOpenHelper {
 
     public int getIncompleteTaskCount() {
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_TASKS + " WHERE " + TASK_COMPLETE + " = 0", null);
 
         int count = 0;
-
         if (cursor.moveToFirst()) {
             count = cursor.getInt(0);
         }
@@ -299,12 +281,7 @@ public class Storage extends SQLiteOpenHelper {
 
     public boolean deleteTask(int taskId) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        int rows = db.delete(
-                TABLE_TASKS,
-                TASK_ID + " = ?",
-                new String[]{String.valueOf(taskId)}
-        );
+        int rows = db.delete(TABLE_TASKS, TASK_ID + " = ?", new String[]{String.valueOf(taskId)});
 
         return rows > 0;
     }

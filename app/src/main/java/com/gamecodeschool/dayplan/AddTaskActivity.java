@@ -1,18 +1,11 @@
 package com.gamecodeschool.dayplan;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import java.util.ArrayList;
 import android.app.DatePickerDialog;
-import android.widget.TextView;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
+import java.util.*;
 
 public class AddTaskActivity extends AppCompatActivity {
     private EditText taskTitleInput;
@@ -52,7 +45,6 @@ public class AddTaskActivity extends AppCompatActivity {
 
     private void loadCoursesIntoSpinner() {
         courses = storage.getAllCourses();
-
         ArrayAdapter<Course> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, courses);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         courseSpinner.setAdapter(adapter);
@@ -90,7 +82,7 @@ public class AddTaskActivity extends AppCompatActivity {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
             Calendar selectedCalendar = Calendar.getInstance();
-            selectedCalendar.setTime(format.parse(dateText));
+            selectedCalendar.setTime(Objects.requireNonNull(format.parse(dateText)));
 
             return getCountdownText(selectedCalendar);
         } catch (Exception e) {
@@ -117,12 +109,10 @@ public class AddTaskActivity extends AppCompatActivity {
 
     private String getCountdownText(Calendar selectedCalendar) {
         Calendar today = Calendar.getInstance();
-
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
         today.set(Calendar.MILLISECOND, 0);
-
         selectedCalendar.set(Calendar.HOUR_OF_DAY, 0);
         selectedCalendar.set(Calendar.MINUTE, 0);
         selectedCalendar.set(Calendar.SECOND, 0);

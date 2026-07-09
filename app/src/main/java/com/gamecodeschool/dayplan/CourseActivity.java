@@ -2,19 +2,11 @@ package com.gamecodeschool.dayplan;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import android.view.*;
+import android.widget.*;
+import androidx.appcompat.app.*;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-
-import androidx.appcompat.app.AppCompatActivity;
-import java.util.ArrayList;
+import java.util.*;
 
 public class CourseActivity extends AppCompatActivity {
     private ListView courseListView;
@@ -42,7 +34,6 @@ public class CourseActivity extends AppCompatActivity {
         courseListView.setOnItemLongClickListener((parent, view, position, id) -> {
             Course selectedCourse = courses.get(position);
             showCourseOptions(selectedCourse);
-
             return true;
         });
     }
