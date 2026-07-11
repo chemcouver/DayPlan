@@ -45,7 +45,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
     private void loadCoursesIntoSpinner() {
         courses = storage.getAllCourses();
-        courses.add(0, new Course(-1, "General Task", "Task not assigned to a course"));
+        courses.add(0, new Course(-1, "", ""));
         ArrayAdapter<Course> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, courses);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         courseSpinner.setAdapter(adapter);

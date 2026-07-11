@@ -16,6 +16,7 @@ public class DashboardActivity extends AppCompatActivity {
     private ListView upcomingTaskListView;
     private Storage storage;
     private ArrayList<Task> upcomingTasks;
+    private ArrayList<Object> dashboardItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,6 @@ public class DashboardActivity extends AppCompatActivity {
         viewCoursesButton = findViewById(R.id.viewCoursesButton);
         viewTasksButton = findViewById(R.id.viewTasksButton);
         addTaskButton = findViewById(R.id.addTaskButton);
-        summaryTextView = findViewById(R.id.summaryTextView);
         upcomingTaskListView = findViewById(R.id.upcomingTaskListView);
 
         viewCoursesButton.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, CourseActivity.class)));
@@ -34,13 +34,22 @@ public class DashboardActivity extends AppCompatActivity {
         addTaskButton.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, AddTaskActivity.class)));
 
         upcomingTaskListView.setOnItemClickListener((parent, view, position, id) -> {
-            Task selectedTask = upcomingTasks.get(position);
-            showCompletionDialog(selectedTask);
+            Object item = dashboardItems.get(position);
+
+            if (item instanceof Task) {
+                Task selectedTask = (Task) item;
+                showCompletionDialog(selectedTask);
+            }
         });
 
         upcomingTaskListView.setOnItemLongClickListener((parent, view, position, id) -> {
-            Task selectedTask = upcomingTasks.get(position);
-            showCompletionDialog(selectedTask);
+            Object item = dashboardItems.get(position);
+
+            if (item instanceof Task) {
+                Task selectedTask = (Task) item;
+                showCompletionDialog(selectedTask);
+            }
+
             return true;
         });
     }
@@ -52,19 +61,13 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void loadDashboard() {
-        int totalTasks = storage.getTaskCount();
-        int completedTasks = storage.getCompletedTaskCount();
-        int incompleteTasks = storage.getIncompleteTaskCount();
+        upcomingTasks = storage.getIncompleteTasks();
+        dashboardItems = buildDashboardTaskList(upcomingTasks);
 
-        String summary = "Weekly Summary\n\n" + "Total tasks: " + totalTasks + "\n" + "Completed tasks: " + completedTasks + "\n" + "Incomplete tasks: " + incompleteTasks;
-        summaryTextView.setText(summary);
-
-        upcomingTasks = storage.getUpcomingIncompleteTasks(5);
-
-        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this, 0, upcomingTasks) {
+        ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(this, 0, dashboardItems) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                Task task = getItem(position);
+                Object item = getItem(position);
 
                 if (convertView == null) {
                     convertView = LayoutInflater.from(getContext()).inflate(
@@ -78,12 +81,29 @@ public class DashboardActivity extends AppCompatActivity {
                 TextView taskDueDateTextView = convertView.findViewById(R.id.taskDueDateTextView);
                 TextView taskStatusSymbolTextView = convertView.findViewById(R.id.taskStatusSymbolTextView);
 
-                if (task != null) {
+                if (item instanceof String) {
+                    String header = (String) item;
+
+                    taskTitleTextView.setText(header);
+                    taskDueDateTextView.setText("━━━━━━━━━━━━━━━━━━━━");
+                    taskStatusSymbolTextView.setText("");
+
+                    taskTitleTextView.setTextSize(15);
+                    taskTitleTextView.setTypeface(null, android.graphics.Typeface.BOLD);
+
+                    taskDueDateTextView.setTextSize(10);
+                    taskDueDateTextView.setTypeface(null, android.graphics.Typeface.BOLD);
+
+                } else if (item instanceof Task) {
+                    Task task = (Task) item;
                     taskTitleTextView.setText(task.getTaskTitle());
                     taskDueDateTextView.setText(task.getCountdownText());
-
+                    taskDueDateTextView.setTextSize(15);
+                    taskDueDateTextView.setTypeface(null, android.graphics.Typeface.NORMAL);
                     taskStatusSymbolTextView.setText("✕");
                     taskStatusSymbolTextView.setTextColor(Color.rgb(200, 0, 0));
+                    taskTitleTextView.setTextSize(16);
+                    taskTitleTextView.setTypeface(null, android.graphics.Typeface.NORMAL);
                 }
 
                 return convertView;
@@ -91,6 +111,48 @@ public class DashboardActivity extends AppCompatActivity {
         };
 
         upcomingTaskListView.setAdapter(adapter);
+    }
+
+    private ArrayList<Object> buildDashboardTaskList(ArrayList<Task> tasks) {
+        ArrayList<Object> items = new ArrayList<>();
+
+        ArrayList<Task> generalTasks = new ArrayList<>();
+
+        for (Task task : tasks) {
+            if (task.getCourseId() == -1) {
+                generalTasks.add(task);
+            }
+        }
+
+        if (!generalTasks.isEmpty()) {
+            items.add("General");
+
+            for (Task task : generalTasks) {
+                items.add(task);
+            }
+        }
+
+        ArrayList<Course> courses = storage.getAllCourses();
+
+        for (Course course : courses) {
+            ArrayList<Task> courseTasks = new ArrayList<>();
+
+            for (Task task : tasks) {
+                if (task.getCourseId() == course.getCourseId()) {
+                    courseTasks.add(task);
+                }
+            }
+
+            if (!courseTasks.isEmpty()) {
+                items.add(course.getCourseName());
+
+                for (Task task : courseTasks) {
+                    items.add(task);
+                }
+            }
+        }
+
+        return items;
     }
 
     private void showCompletionDialog(Task task) {

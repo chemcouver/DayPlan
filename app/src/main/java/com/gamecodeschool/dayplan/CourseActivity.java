@@ -57,7 +57,6 @@ public class CourseActivity extends AppCompatActivity {
         TextView courseTitleTextView = view.findViewById(R.id.courseTitleTextView);
         TextView courseDescriptionTextView = view.findViewById(R.id.courseDescriptionTextView);
         TextView courseProgressTextView = view.findViewById(R.id.courseProgressTextView);
-        TextView courseTasksTextView = view.findViewById(R.id.courseTasksTextView);
         Button closeButton = view.findViewById(R.id.closeButton);
 
         courseTitleTextView.setText(course.getCourseName());

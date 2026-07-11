@@ -42,22 +42,6 @@
 			android:text="Course progress"
 			android:textSize="16sp" />
 
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="8dp"
-			android:text="Tasks"
-			android:textSize="18sp"
-			android:textStyle="bold" />
-
-		<TextView
-			android:id="@+id/courseTasksTextView"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="20dp"
-			android:text="Course tasks"
-			android:textSize="16sp" />
-
 		<Button
 			android:id="@+id/closeButton"
 			android:layout_width="match_parent"

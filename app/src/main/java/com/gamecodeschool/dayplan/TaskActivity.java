@@ -110,13 +110,20 @@ public class TaskActivity extends AppCompatActivity {
         Course course = storage.getCourseById(task.getCourseId());
 
         if (task.getCourseId() == -1) {
-            courseTitleTextView.setText("General Task");
-            courseDescriptionTextView.setText("This task is not assigned to a course.");
+            courseTitleTextView.setVisibility(View.GONE);
+            courseDescriptionTextView.setVisibility(View.GONE);
         } else if (course == null) {
+            courseTitleTextView.setVisibility(View.VISIBLE);
+            courseDescriptionTextView.setVisibility(View.VISIBLE);
+
             courseTitleTextView.setText("Course not found");
             courseDescriptionTextView.setText("");
         } else {
+            courseTitleTextView.setVisibility(View.VISIBLE);
+            courseDescriptionTextView.setVisibility(View.VISIBLE);
+
             courseTitleTextView.setText(course.getCourseName());
+
             String courseDescription = course.getCourseDescription();
             if (courseDescription == null || courseDescription.trim().isEmpty()) {
                 courseDescriptionTextView.setText("No course description added.");
