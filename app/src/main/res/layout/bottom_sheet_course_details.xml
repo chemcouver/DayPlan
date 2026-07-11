@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,27 +10,59 @@
         android:padding="24dp">
 
         <TextView
-            android:id="@+id/courseTitleTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="Course Title"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+			android:id="@+id/courseTitleTextView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="12dp"
+			android:text="Course Title"
+			android:textSize="24sp"
+			android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/courseDescriptionTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="Course description"
-            android:textSize="16sp" />
+		<TextView
+			android:id="@+id/courseDescriptionTextView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="20dp"
+			android:text="Course description"
+			android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/closeButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Close" />
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="8dp"
+			android:text="Progress"
+			android:textSize="18sp"
+			android:textStyle="bold" />
+
+		<TextView
+			android:id="@+id/courseProgressTextView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="20dp"
+			android:text="Course progress"
+			android:textSize="16sp" />
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="8dp"
+			android:text="Tasks"
+			android:textSize="18sp"
+			android:textStyle="bold" />
+
+		<TextView
+			android:id="@+id/courseTasksTextView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="20dp"
+			android:text="Course tasks"
+			android:textSize="16sp" />
+
+		<Button
+			android:id="@+id/closeButton"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Close" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

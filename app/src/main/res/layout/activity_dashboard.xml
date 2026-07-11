@@ -27,7 +27,7 @@
             android:layout_height="wrap_content" />
 
 		<TextView
-			android:text="Upcoming Tasks"
+			android:text="Tasks to do"
 			android:textSize="22sp"
 			android:textStyle="bold"
 			android:layout_marginBottom="4dp"
@@ -45,7 +45,7 @@
             android:id="@+id/upcomingTaskListView"
             android:layout_width="match_parent"
             android:layout_height="220dp" />
-
+	
         <TextView
             android:text="Navigation"
             android:textSize="22sp"

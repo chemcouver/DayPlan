@@ -56,6 +56,8 @@ public class CourseActivity extends AppCompatActivity {
         View view = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_course_details, null);
         TextView courseTitleTextView = view.findViewById(R.id.courseTitleTextView);
         TextView courseDescriptionTextView = view.findViewById(R.id.courseDescriptionTextView);
+        TextView courseProgressTextView = view.findViewById(R.id.courseProgressTextView);
+        TextView courseTasksTextView = view.findViewById(R.id.courseTasksTextView);
         Button closeButton = view.findViewById(R.id.closeButton);
 
         courseTitleTextView.setText(course.getCourseName());
@@ -66,6 +68,24 @@ public class CourseActivity extends AppCompatActivity {
         } else {
             courseDescriptionTextView.setText(description);
         }
+
+        int totalTasks = storage.getTaskCountForCourse(course.getCourseId());
+        int completedTasks = storage.getCompletedTaskCountForCourse(course.getCourseId());
+        int pendingTasks = storage.getIncompleteTaskCountForCourse(course.getCourseId());
+
+        int completionPercent = 0;
+
+        if (totalTasks > 0) {
+            completionPercent = (completedTasks * 100) / totalTasks;
+        }
+
+        String progressText =
+                "Completed: " + completedTasks + "\n" +
+                        "Pending: " + pendingTasks + "\n" +
+                        "Total: " + totalTasks + "\n" +
+                        "Completion: " + completionPercent + "%";
+
+        courseProgressTextView.setText(progressText);
 
         closeButton.setOnClickListener(v -> bottomSheetDialog.dismiss());
         bottomSheetDialog.setContentView(view);
