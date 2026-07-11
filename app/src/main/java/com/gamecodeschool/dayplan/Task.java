@@ -62,6 +62,10 @@ public class Task {
     }
 
     public String getCountdownText() {
+        if (dueDate == null || dueDate.trim().isEmpty()) {
+            return "No due date";
+        }
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
         try {

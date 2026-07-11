@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Storage extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "dayplan.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String TABLE_COURSES = "courses";
     private static final String COURSE_ID = "course_id";
     private static final String COURSE_NAME = "course_name";
@@ -27,7 +27,7 @@ public class Storage extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createCoursesTable = "CREATE TABLE " + TABLE_COURSES + " (" + COURSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COURSE_NAME + " TEXT NOT NULL, " + COURSE_DESCRIPTION + " TEXT" + ");";
-        String createTasksTable = "CREATE TABLE " + TABLE_TASKS + " (" + TASK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TASK_COURSE_ID + " INTEGER, " + TASK_TITLE + " TEXT NOT NULL, " + TASK_DESCRIPTION + " TEXT, " + TASK_DUE_DATE + " TEXT NOT NULL, " + TASK_COMPLETE + " INTEGER DEFAULT 0, " + "FOREIGN KEY(" + TASK_COURSE_ID + ") REFERENCES " + TABLE_COURSES + "(" + COURSE_ID + ")" + ");";
+        String createTasksTable = "CREATE TABLE " + TABLE_TASKS + " (" + TASK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TASK_COURSE_ID + " INTEGER, " + TASK_TITLE + " TEXT NOT NULL, " + TASK_DESCRIPTION + " TEXT, " + TASK_DUE_DATE + " TEXT, " + TASK_COMPLETE + " INTEGER DEFAULT 0, " + "FOREIGN KEY(" + TASK_COURSE_ID + ") REFERENCES " + TABLE_COURSES + "(" + COURSE_ID + ")" + ");";
 
         db.execSQL(createCoursesTable);
         db.execSQL(createTasksTable);
@@ -113,7 +113,11 @@ public class Storage extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(TASK_COURSE_ID, task.getCourseId());
+        if (task.getCourseId() == -1) {
+            values.putNull(TASK_COURSE_ID);
+        } else {
+            values.put(TASK_COURSE_ID, task.getCourseId());
+        }
         values.put(TASK_TITLE, task.getTaskTitle());
         values.put(TASK_DESCRIPTION, task.getTaskDescription());
         values.put(TASK_DUE_DATE, task.getDueDate());
@@ -127,7 +131,11 @@ public class Storage extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(TASK_COURSE_ID, courseId);
+        if (courseId == -1) {
+            values.putNull(TASK_COURSE_ID);
+        } else {
+            values.put(TASK_COURSE_ID, courseId);
+        }
         values.put(TASK_TITLE, title);
         values.put(TASK_DESCRIPTION, description);
         values.put(TASK_DUE_DATE, dueDate);
@@ -146,7 +154,8 @@ public class Storage extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(TASK_ID));
-                int courseId = cursor.getInt(cursor.getColumnIndexOrThrow(TASK_COURSE_ID));
+                int courseIdColumn = cursor.getColumnIndexOrThrow(TASK_COURSE_ID);
+                int courseId = cursor.isNull(courseIdColumn) ? -1 : cursor.getInt(courseIdColumn);
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(TASK_TITLE));
                 String description = cursor.getString(cursor.getColumnIndexOrThrow(TASK_DESCRIPTION));
                 String dueDate = cursor.getString(cursor.getColumnIndexOrThrow(TASK_DUE_DATE));
@@ -169,7 +178,8 @@ public class Storage extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(TASK_ID));
-                int courseId = cursor.getInt(cursor.getColumnIndexOrThrow(TASK_COURSE_ID));
+                int courseIdColumn = cursor.getColumnIndexOrThrow(TASK_COURSE_ID);
+                int courseId = cursor.isNull(courseIdColumn) ? -1 : cursor.getInt(courseIdColumn);
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(TASK_TITLE));
                 String description = cursor.getString(cursor.getColumnIndexOrThrow(TASK_DESCRIPTION));
                 String dueDate = cursor.getString(cursor.getColumnIndexOrThrow(TASK_DUE_DATE));
@@ -191,7 +201,8 @@ public class Storage extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(TASK_ID));
-                int courseId = cursor.getInt(cursor.getColumnIndexOrThrow(TASK_COURSE_ID));
+                int courseIdColumn = cursor.getColumnIndexOrThrow(TASK_COURSE_ID);
+                int courseId = cursor.isNull(courseIdColumn) ? -1 : cursor.getInt(courseIdColumn);
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(TASK_TITLE));
                 String description = cursor.getString(cursor.getColumnIndexOrThrow(TASK_DESCRIPTION));
                 String dueDate = cursor.getString(cursor.getColumnIndexOrThrow(TASK_DUE_DATE));
@@ -213,7 +224,8 @@ public class Storage extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(TASK_ID));
-                int courseId = cursor.getInt(cursor.getColumnIndexOrThrow(TASK_COURSE_ID));
+                int courseIdColumn = cursor.getColumnIndexOrThrow(TASK_COURSE_ID);
+                int courseId = cursor.isNull(courseIdColumn) ? -1 : cursor.getInt(courseIdColumn);
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(TASK_TITLE));
                 String description = cursor.getString(cursor.getColumnIndexOrThrow(TASK_DESCRIPTION));
                 String dueDate = cursor.getString(cursor.getColumnIndexOrThrow(TASK_DUE_DATE));

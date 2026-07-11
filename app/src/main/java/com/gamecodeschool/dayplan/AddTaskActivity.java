@@ -45,6 +45,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
     private void loadCoursesIntoSpinner() {
         courses = storage.getAllCourses();
+        courses.add(0, new Course(-1, "General Task", "Task not assigned to a course"));
         ArrayAdapter<Course> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, courses);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         courseSpinner.setAdapter(adapter);
@@ -63,7 +64,12 @@ public class AddTaskActivity extends AppCompatActivity {
 
             taskTitleInput.setText(taskTitle);
             taskDescriptionInput.setText(taskDescription);
-            selectedDateTextView.setText("Due: " + getCountdownTextFromDate(selectedDueDate));
+            if (selectedDueDate == null || selectedDueDate.trim().isEmpty()) {
+                selectedDueDate = "";
+                selectedDateTextView.setText("No due date selected");
+            } else {
+                selectedDateTextView.setText("Due: " + getCountdownTextFromDate(selectedDueDate));
+            }
 
             Button saveTaskButton = findViewById(R.id.saveTaskButton);
             saveTaskButton.setText("Update Task");
@@ -136,16 +142,6 @@ public class AddTaskActivity extends AppCompatActivity {
 
         if (title.isEmpty()) {
             taskTitleInput.setError("Task title is required");
-            return;
-        }
-
-        if (selectedDueDate.isEmpty()) {
-            Toast.makeText(this, "Please select a due date", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (courses.isEmpty()) {
-            Toast.makeText(this, "Please create a course first", Toast.LENGTH_SHORT).show();
             return;
         }
 
