@@ -10,6 +10,7 @@ import java.util.*;
 
 /*
  * Hasan Awada, Student ID 3637019
+ * Abraham Sameer, Student ID 3812585
  *
  * CourseActivity
  *
