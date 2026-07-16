@@ -8,6 +8,17 @@ import androidx.appcompat.app.*;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.*;
 
+/*
+ * Hasan Awada, Student ID 3637019
+ *
+ * CourseActivity
+ *
+ * Description:
+ * - Displays all the courses stored
+ * - Allows the user to open course details and view course progress
+ * - Gives the option to create, edit, or delete courses
+ * - Refreshes the course list when the user returns to the screen
+ */
 public class CourseActivity extends AppCompatActivity {
     private ListView courseListView;
     private Button addCourseButton;
@@ -78,12 +89,7 @@ public class CourseActivity extends AppCompatActivity {
             completionPercent = (completedTasks * 100) / totalTasks;
         }
 
-        String progressText =
-                "Completed: " + completedTasks + "\n" +
-                        "Pending: " + pendingTasks + "\n" +
-                        "Total: " + totalTasks + "\n" +
-                        "Completion: " + completionPercent + "%";
-
+        String progressText = "Completed: " + completedTasks + "\n" + "Pending: " + pendingTasks + "\n" + "Total: " + totalTasks + "\n" + "Completion: " + completionPercent + "%";
         courseProgressTextView.setText(progressText);
 
         closeButton.setOnClickListener(v -> bottomSheetDialog.dismiss());

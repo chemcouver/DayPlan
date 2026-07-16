@@ -5,6 +5,18 @@ import android.database.Cursor;
 import android.database.sqlite.*;
 import java.util.*;
 
+/*
+ * Hasan Awada, Student ID 3637019
+ *
+ * Storage
+ *
+ * Description:
+ * - Manages the local database
+ * - Creates and maintains the courses and tasks  tables
+ * - Allows create, retrieve, update, and delete operations
+ * - Retrieves filtered task lists and calculates task progress totals
+ * - Converts database records into course and task objects
+ */
 public class Storage extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "dayplan.db";
     private static final int DATABASE_VERSION = 2;
@@ -72,11 +84,7 @@ public class Storage extends SQLiteOpenHelper {
     public Course getCourseById(int courseId) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(
-                "SELECT * FROM " + TABLE_COURSES + " WHERE " + COURSE_ID + " = ?",
-                new String[]{String.valueOf(courseId)}
-        );
-
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_COURSES + " WHERE " + COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
         Course course = null;
 
         if (cursor.moveToFirst()) {
@@ -149,13 +157,7 @@ public class Storage extends SQLiteOpenHelper {
         ArrayList<Task> tasks = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(
-                "SELECT * FROM " + TABLE_TASKS +
-                        " ORDER BY " +
-                        "CASE WHEN " + TASK_DUE_DATE + " IS NULL OR " + TASK_DUE_DATE + " = '' THEN 1 ELSE 0 END, " +
-                        TASK_DUE_DATE + " ASC",
-                null
-        );
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TASKS + " ORDER BY " + "CASE WHEN " + TASK_DUE_DATE + " IS NULL OR " + TASK_DUE_DATE + " = '' THEN 1 ELSE 0 END, " + TASK_DUE_DATE + " ASC", null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -180,14 +182,7 @@ public class Storage extends SQLiteOpenHelper {
         ArrayList<Task> tasks = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(
-                "SELECT * FROM " + TABLE_TASKS +
-                        " WHERE " + TASK_COMPLETE + " = 0" +
-                        " ORDER BY " +
-                        "CASE WHEN " + TASK_DUE_DATE + " IS NULL OR " + TASK_DUE_DATE + " = '' THEN 1 ELSE 0 END, " +
-                        TASK_DUE_DATE + " ASC",
-                null
-        );
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TASKS + " WHERE " + TASK_COMPLETE + " = 0" + " ORDER BY " + "CASE WHEN " + TASK_DUE_DATE + " IS NULL OR " + TASK_DUE_DATE + " = '' THEN 1 ELSE 0 END, " + TASK_DUE_DATE + " ASC", null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -211,14 +206,7 @@ public class Storage extends SQLiteOpenHelper {
         ArrayList<Task> tasks = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(
-                "SELECT * FROM " + TABLE_TASKS +
-                        " WHERE " + TASK_COMPLETE + " = 1" +
-                        " ORDER BY " +
-                        "CASE WHEN " + TASK_DUE_DATE + " IS NULL OR " + TASK_DUE_DATE + " = '' THEN 1 ELSE 0 END, " +
-                        TASK_DUE_DATE + " ASC",
-                null
-        );
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TASKS + " WHERE " + TASK_COMPLETE + " = 1" + " ORDER BY " + "CASE WHEN " + TASK_DUE_DATE + " IS NULL OR " + TASK_DUE_DATE + " = '' THEN 1 ELSE 0 END, " + TASK_DUE_DATE + " ASC", null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -242,15 +230,7 @@ public class Storage extends SQLiteOpenHelper {
         ArrayList<Task> tasks = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(
-                "SELECT * FROM " + TABLE_TASKS +
-                        " WHERE " + TASK_COMPLETE + " = 0" +
-                        " ORDER BY " +
-                        "CASE WHEN " + TASK_DUE_DATE + " IS NULL OR " + TASK_DUE_DATE + " = '' THEN 1 ELSE 0 END, " +
-                        TASK_DUE_DATE + " ASC" +
-                        " LIMIT " + limit,
-                null
-        );
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TASKS + " WHERE " + TASK_COMPLETE + " = 0" + " ORDER BY " + "CASE WHEN " + TASK_DUE_DATE + " IS NULL OR " + TASK_DUE_DATE + " = '' THEN 1 ELSE 0 END, " + TASK_DUE_DATE + " ASC" + " LIMIT " + limit, null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -316,17 +296,9 @@ public class Storage extends SQLiteOpenHelper {
         Cursor cursor;
 
         if (courseId == -1) {
-            cursor = db.rawQuery(
-                    "SELECT COUNT(*) FROM " + TABLE_TASKS +
-                            " WHERE " + TASK_COURSE_ID + " IS NULL",
-                    null
-            );
+            cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_TASKS + " WHERE " + TASK_COURSE_ID + " IS NULL", null);
         } else {
-            cursor = db.rawQuery(
-                    "SELECT COUNT(*) FROM " + TABLE_TASKS +
-                            " WHERE " + TASK_COURSE_ID + " = ?",
-                    new String[]{String.valueOf(courseId)}
-            );
+            cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_TASKS + " WHERE " + TASK_COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
         }
 
         int count = 0;
@@ -344,19 +316,9 @@ public class Storage extends SQLiteOpenHelper {
         Cursor cursor;
 
         if (courseId == -1) {
-            cursor = db.rawQuery(
-                    "SELECT COUNT(*) FROM " + TABLE_TASKS +
-                            " WHERE " + TASK_COURSE_ID + " IS NULL" +
-                            " AND " + TASK_COMPLETE + " = 1",
-                    null
-            );
+            cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_TASKS + " WHERE " + TASK_COURSE_ID + " IS NULL" + " AND " + TASK_COMPLETE + " = 1", null);
         } else {
-            cursor = db.rawQuery(
-                    "SELECT COUNT(*) FROM " + TABLE_TASKS +
-                            " WHERE " + TASK_COURSE_ID + " = ?" +
-                            " AND " + TASK_COMPLETE + " = 1",
-                    new String[]{String.valueOf(courseId)}
-            );
+            cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_TASKS + " WHERE " + TASK_COURSE_ID + " = ?" + " AND " + TASK_COMPLETE + " = 1", new String[]{String.valueOf(courseId)});
         }
 
         int count = 0;
@@ -374,19 +336,9 @@ public class Storage extends SQLiteOpenHelper {
         Cursor cursor;
 
         if (courseId == -1) {
-            cursor = db.rawQuery(
-                    "SELECT COUNT(*) FROM " + TABLE_TASKS +
-                            " WHERE " + TASK_COURSE_ID + " IS NULL" +
-                            " AND " + TASK_COMPLETE + " = 0",
-                    null
-            );
+            cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_TASKS + " WHERE " + TASK_COURSE_ID + " IS NULL" + " AND " + TASK_COMPLETE + " = 0", null);
         } else {
-            cursor = db.rawQuery(
-                    "SELECT COUNT(*) FROM " + TABLE_TASKS +
-                            " WHERE " + TASK_COURSE_ID + " = ?" +
-                            " AND " + TASK_COMPLETE + " = 0",
-                    new String[]{String.valueOf(courseId)}
-            );
+            cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_TASKS + " WHERE " + TASK_COURSE_ID + " = ?" + " AND " + TASK_COMPLETE + " = 0", new String[]{String.valueOf(courseId)});
         }
 
         int count = 0;
@@ -404,24 +356,12 @@ public class Storage extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor;
 
-        String orderBy = " ORDER BY " +
-                "CASE WHEN " + TASK_DUE_DATE + " IS NULL OR " + TASK_DUE_DATE + " = '' THEN 1 ELSE 0 END, " +
-                TASK_DUE_DATE + " ASC";
+        String orderBy = " ORDER BY " + "CASE WHEN " + TASK_DUE_DATE + " IS NULL OR " + TASK_DUE_DATE + " = '' THEN 1 ELSE 0 END, " + TASK_DUE_DATE + " ASC";
 
         if (courseId == -1) {
-            cursor = db.rawQuery(
-                    "SELECT * FROM " + TABLE_TASKS +
-                            " WHERE " + TASK_COURSE_ID + " IS NULL" +
-                            orderBy,
-                    null
-            );
+            cursor = db.rawQuery("SELECT * FROM " + TABLE_TASKS + " WHERE " + TASK_COURSE_ID + " IS NULL" + orderBy, null);
         } else {
-            cursor = db.rawQuery(
-                    "SELECT * FROM " + TABLE_TASKS +
-                            " WHERE " + TASK_COURSE_ID + " = ?" +
-                            orderBy,
-                    new String[]{String.valueOf(courseId)}
-            );
+            cursor = db.rawQuery("SELECT * FROM " + TABLE_TASKS + " WHERE " + TASK_COURSE_ID + " = ?" + orderBy, new String[]{String.valueOf(courseId)});
         }
 
         if (cursor.moveToFirst()) {

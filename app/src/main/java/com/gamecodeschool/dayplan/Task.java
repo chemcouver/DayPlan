@@ -3,6 +3,17 @@ package com.gamecodeschool.dayplan;
 import java.text.*;
 import java.util.*;
 
+/*
+ * Hasan Awada, Student ID 3637019
+ *
+ * Task
+ *
+ * Description:
+ * - Represents an academic or general task stored
+ * - Stores task details, course assignment, and completion status
+ * - Stores the due date using the YYYY-MM-DD format
+ * - Calculates the countdown
+ */
 public class Task {
     private int taskId;
     private final int courseId;

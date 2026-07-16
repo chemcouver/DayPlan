@@ -1,5 +1,14 @@
 package com.gamecodeschool.dayplan;
 
+/*
+ * Hasan Awada, Student ID 3637019
+ *
+ * Course
+ *
+ * Description:
+ * - Represents an academic course stored
+ * - Stores the course ID, name, and description
+ */
 public class Course {
     private int courseId;
     private String courseName;

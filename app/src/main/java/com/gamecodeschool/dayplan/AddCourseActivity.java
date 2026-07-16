@@ -4,6 +4,17 @@ import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
+/*
+ * Hasan Awada, Student ID 3637019
+ *
+ * AddCourseActivity
+ *
+ * Description:
+ * - Provides the form used to create or edit a course
+ * - Validates that a course name has been entered
+ * - Saves new courses or updates existing courses through Storage
+ * - Displays confirmation or error feedback after saving
+ */
 public class AddCourseActivity extends AppCompatActivity {
     private EditText courseNameInput;
     private EditText courseDescriptionInput;

@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Hasan Awada, Student ID 3637019
+
+    activity_add_task.xml
+
+    Description:
+    - Defines the form used to create or edit a task.
+    - Provides fields for the task title and optional description.
+    - Provides controls for optional course and due-date selection.
+    - Includes the button used to save or update the task.
+-->
 <ScrollView 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

@@ -8,6 +8,17 @@ import java.util.ArrayList;
 import android.graphics.Color;
 import android.view.*;
 
+/*
+ * Hasan Awada, Student ID 3637019
+ *
+ * DashboardActivity
+ *
+ * Description:
+ * - Provides the main dashboard and navigation buttons
+ * - Displays incomplete tasks grouped under their assigned course (or under general)
+ * - Shows due date countdown information for each incomplete task
+ * - Allows dashboard tasks to be marked as complete
+ */
 public class DashboardActivity extends AppCompatActivity {
     private Button viewCoursesButton;
     private Button viewTasksButton;
@@ -70,11 +81,7 @@ public class DashboardActivity extends AppCompatActivity {
                 Object item = getItem(position);
 
                 if (convertView == null) {
-                    convertView = LayoutInflater.from(getContext()).inflate(
-                            R.layout.task_row,
-                            parent,
-                            false
-                    );
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.task_row, parent, false);
                 }
 
                 TextView taskTitleTextView = convertView.findViewById(R.id.taskTitleTextView);
@@ -157,10 +164,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void showCompletionDialog(Task task) {
         new AlertDialog.Builder(this).setTitle("Complete Task").setMessage("Mark this task as complete?").setPositiveButton("Yes", (dialog, which) -> {
-            boolean updated = storage.updateTaskCompletion(
-                    task.getTaskId(),
-                    true
-            );
+            boolean updated = storage.updateTaskCompletion(task.getTaskId(), true);
 
             if (updated) {
                 Toast.makeText(this, "Task marked complete", Toast.LENGTH_SHORT).show();

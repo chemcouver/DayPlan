@@ -7,6 +7,17 @@ import android.app.DatePickerDialog;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/*
+ * Hasan Awada, Student ID 3637019
+ *
+ * AddTaskActivity
+ *
+ * Description:
+ * - Provides the form used to create or edit a task
+ * - Allows the user to enter task details and select an optional course
+ * - Provides a date picker for selecting an optional due date
+ * - Validates the task title and saves task information through Storage
+ */
 public class AddTaskActivity extends AppCompatActivity {
     private EditText taskTitleInput;
     private EditText taskDescriptionInput;
@@ -149,8 +160,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
         boolean saved;
 
-        if (editMode) {
-            saved = storage.updateTask(
+        if (editMode) {saved = storage.updateTask(
                     taskId,
                     selectedCourse.getCourseId(),
                     title,

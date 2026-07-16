@@ -9,6 +9,17 @@ import android.view.*;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import android.graphics.Color;
 
+/*
+ * Hasan Awada, Student ID 3637019
+ *
+ * TaskActivity
+ *
+ * Description:
+ * - Displays all complete and incomplete tasks
+ * - Shows task details and related course information in a bottom sheet
+ * - Allows the user to change a task's completion status
+ * - Provides options to create, edit, or delete tasks
+ */
 public class TaskActivity extends AppCompatActivity {
     private ListView taskListView;
     private Button addTaskButton;
@@ -53,11 +64,7 @@ public class TaskActivity extends AppCompatActivity {
                 Task task = getItem(position);
 
                 if (convertView == null) {
-                    convertView = LayoutInflater.from(getContext()).inflate(
-                            R.layout.task_row,
-                            parent,
-                            false
-                    );
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.task_row, parent, false);
                 }
 
                 TextView taskTitleTextView = convertView.findViewById(R.id.taskTitleTextView);
@@ -139,11 +146,7 @@ public class TaskActivity extends AppCompatActivity {
         }
 
         toggleCompleteButton.setOnClickListener(v -> {
-            boolean updated = storage.updateTaskCompletion(
-                    task.getTaskId(),
-                    !task.isComplete()
-            );
-
+            boolean updated = storage.updateTaskCompletion(task.getTaskId(), !task.isComplete());
             if (updated) {
                 Toast.makeText(this, "Task updated", Toast.LENGTH_SHORT).show();
                 bottomSheetDialog.dismiss();
